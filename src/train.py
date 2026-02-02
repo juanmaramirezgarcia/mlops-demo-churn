@@ -8,6 +8,7 @@ from sklearn.linear_model import LogisticRegression
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+from validate import validate  # noqa: E402
 
 FEATURES = ["tenure_months", "monthly_charges", "support_tickets"]
 
@@ -24,6 +25,7 @@ def train(df: pd.DataFrame) -> LogisticRegression:
 
 if __name__ == "__main__":
     df = load_data()
+    validate(df)
     model = train(df)
     (ROOT / "models").mkdir(exist_ok=True)
     with open(ROOT / "models" / "churn.pkl", "wb") as f:
