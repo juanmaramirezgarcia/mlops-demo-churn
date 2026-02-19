@@ -14,3 +14,14 @@ def validate(df: pd.DataFrame) -> None:
         raise DataValidationError(f"Missing required columns: {missing}")
     if len(df) == 0:
         raise DataValidationError("Dataset is empty")
+
+    # Empty numeric values used to be filled with 0 downstream, which the model
+    # read as "a customer with zero months of tenure". Reject them instead.
+    numeric = ["tenure_months", "monthly_charges", "support_tickets"]
+    empty_share = df[numeric].isna().mean()
+    too_empty = empty_share[empty_share > 0.05]
+    if not too_empty.empty:
+        raise DataValidationError(
+            f"More than 5% empty values in: {too_empty.index.tolist()} "
+            f"({too_empty.round(2).to_dict()}). Check the upstream extract."
+        )
