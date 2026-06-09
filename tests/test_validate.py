@@ -15,6 +15,7 @@ def good_df():
         "tenure_months": [1.0, 12.0, 24.0, 36.0],
         "monthly_charges": [90.0, 60.0, 55.0, 40.0],
         "support_tickets": [5, 2, 1, 0],
+        "promo_weeks_last_quarter": [0, 2, 1, 3],
         "churned": [1, 0, 0, 0],
     })
 

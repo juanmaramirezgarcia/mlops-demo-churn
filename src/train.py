@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from validate import validate  # noqa: E402
 
-FEATURES = ["tenure_months", "monthly_charges", "support_tickets"]
+FEATURES = ["tenure_months", "monthly_charges", "support_tickets", "promo_weeks_last_quarter"]
 
 
 def load_data(path: Path = ROOT / "data" / "churn_sample.csv") -> pd.DataFrame:

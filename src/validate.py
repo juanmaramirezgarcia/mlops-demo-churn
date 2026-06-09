@@ -1,7 +1,8 @@
 """Data validation: stop the pipeline before training if the data is not what we expect."""
 import pandas as pd
 
-REQUIRED_COLUMNS = ["customer_id", "tenure_months", "monthly_charges", "support_tickets", "churned"]
+REQUIRED_COLUMNS = ["customer_id", "tenure_months", "monthly_charges", "support_tickets",
+                    "promo_weeks_last_quarter", "churned"]
 
 
 class DataValidationError(Exception):
@@ -17,7 +18,7 @@ def validate(df: pd.DataFrame) -> None:
 
     # Empty numeric values used to be filled with 0 downstream, which the model
     # read as "a customer with zero months of tenure". Reject them instead.
-    numeric = ["tenure_months", "monthly_charges", "support_tickets"]
+    numeric = ["tenure_months", "monthly_charges", "support_tickets", "promo_weeks_last_quarter"]
     empty_share = df[numeric].isna().mean()
     too_empty = empty_share[empty_share > 0.05]
     if not too_empty.empty:
