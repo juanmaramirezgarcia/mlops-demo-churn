@@ -1,13 +1,22 @@
 name: ci
 on: [push, pull_request]
 jobs:
-  test:
+  pipeline:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Check out the code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install -r requirements.txt
-      - run: python -m pytest -q
-      - run: python src/train.py
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Tests on code
+        run: python -m pytest -q
+      - name: Validate data
+        run: python src/check_data.py
+      - name: Train and evaluate
+        run: python src/train.py
+      - name: Model card present
+        run: test -f MODEL_CARD.md && grep -q "Owner" MODEL_CARD.md
